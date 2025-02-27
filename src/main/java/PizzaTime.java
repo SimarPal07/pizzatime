@@ -25,32 +25,22 @@ static Scanner scanner = new Scanner(System.in);
         //input street name
         System.out.println("Enter street name: ");
         String streetinput = scanner.nextLine();
-        if (!streetname[0].equals(streetinput)) {
-            System.out.println("Not within radius, please try again.");
-            continue;
+        //create boolean
+        Boolean validStreet = false;
+        //iterate over elements of arrays or collections, without having to manually manage the index.
+        for (String street : streetname) {
+            if (street.equals(streetinput)) {
+                validStreet = true;
+                break;
+
+            }
+
 
         }
-        if (!streetname[1].equals(streetinput)) {
-            System.out.println("Not within radius, please try again.");
+        if (!validStreet) {
+            System.out.println("Out of bounds, please try again.");
             continue;
-
         }
-        if (!streetname[2].equals(streetinput)) {
-            System.out.println("Not within radius, please try again.");
-            continue;
-
-        }
-        if (!streetname[3].equals(streetinput)) {
-            System.out.println("Not within radius, please try again.");
-            continue;
-
-        }
-        if (!streetname[4].equals(streetinput)) {
-            System.out.println("Not within radius, please try again.");
-            continue;
-
-        }
-    
         }
         
         
