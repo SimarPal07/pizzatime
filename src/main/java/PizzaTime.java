@@ -45,7 +45,7 @@ class Order {
         return totalCost;
     }
 
-    @Override
+    
     //display order history formatting
     public String toString() {
         return "Order: " + pizzaSize + " pizza, " + (toppings.isEmpty() ? "No toppings" : String.join(", ", toppings)) + "\n" +
