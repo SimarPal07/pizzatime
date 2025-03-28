@@ -1,27 +1,108 @@
+//Simar Pal
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//this class stores information for each order, such as city, street address, postal code, pizza size, toppings, and total cost.
+class Order {
+    private String city;
+    private String streetAddress;
+    private String postalCode;
+    private String pizzaSize;
+    private ArrayList<String> toppings;
+    private double totalCost;
+
+    public Order(String city, String streetAddress, String postalCode, String pizzaSize, ArrayList<String> toppings, double totalCost) {
+        //takes in values for all the fields and assigns them to the instance variables.
+        this.city = city;
+        this.streetAddress = streetAddress;
+        this.postalCode = postalCode;
+        this.pizzaSize = pizzaSize;
+        this.toppings = toppings;
+        this.totalCost = totalCost;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getStreetAddress() {
+        return streetAddress;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public String getPizzaSize() {
+        return pizzaSize;
+    }
+
+    public ArrayList<String> getToppings() {
+        return toppings;
+    }
+
+    public double getTotalCost() {
+        return totalCost;
+    }
+
+    @Override
+    //display order history formatting
+    public String toString() {
+        return "Order: " + pizzaSize + " pizza, " + (toppings.isEmpty() ? "No toppings" : String.join(", ", toppings)) + "\n" +
+                "Delivery Address: " + streetAddress + ", " + city + ", " + postalCode + "\n" +
+                "Total Cost: $" + totalCost;
+    }
+}
 public class PizzaTime {
-
-
+// This ArrayList stores all the orders that have been placed by users. It's used to keep track of past orders so that they can be viewed later.
+static ArrayList<Order> orderHistory = new ArrayList<>();
 static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args){
-         // Get and validate city
-         String city = Validcity(scanner);
+        while (true) {
+            // Menu options
+            System.out.println("\nPizza Order System");
+            System.out.println("1. Place a new order");
+            System.out.println("2. View order history");
+            System.out.println("3. Exit");
+            System.out.print("Choose an option: ");
+            String choice = scanner.nextLine();
+            
 
-         // Get and validate street
-         String streetAddress = Validstreet(scanner);
- 
-         // Get and validate postal code
-         String postalCode = ValidPostalCode(scanner);
+            if (choice.equals("1")) {
+                //place order            
+                placeOrder();  
+            } else if (choice.equals("2")) {
+                //view order history
+                viewOrderHistory();  
+            } else if (choice.equals("3")) {
+                System.out.println("Thank you for using the Pizza Ordering System!");
+                break;  
+            } else {
+                System.out.println("Invalid option. Please try again.");
+            }
+        }
+    }
 
-        
+    private static void placeOrder() {
+        // Get and validate city
+        String city = Validcity(scanner);
+
+        // Get and validate street
+        String streetAddress = Validstreet(scanner);
+
+        // Get and validate postal code
+        String postalCode = ValidPostalCode(scanner);
+
         // Order customization: size and toppings
         String pizzaSize = selectPizzaSize(scanner);
         ArrayList<String> toppings = selectToppings(scanner);
 
         // Calculate total cost
         double totalCost = calculateTotalCost(pizzaSize, toppings);
+
+        // Create an Order object and add it to the order history
+        Order newOrder = new Order(city, streetAddress, postalCode, pizzaSize, toppings, totalCost);
+        orderHistory.add(newOrder);
 
         // Confirmation message
         System.out.println("\nDelivery Confirmed");
@@ -34,6 +115,18 @@ static Scanner scanner = new Scanner(System.in);
         System.out.println("Toppings: " + (toppings.isEmpty() ? "None" : String.join(", ", toppings)));
         System.out.println("Total Cost: $" + totalCost);
     }
+
+    private static void viewOrderHistory() {
+        if (orderHistory.isEmpty()) {
+            System.out.println("No orders in history.");
+        } else {
+            System.out.println("\n--- Order History ---");
+            for (Order order : orderHistory) {
+                System.out.println(order);
+                System.out.println("--------------------");
+            }
+        }
+    }
         
     private static String Validcity(Scanner scanner) {
          //welcome
@@ -41,12 +134,12 @@ static Scanner scanner = new Scanner(System.in);
             System.out.println("WELCOME TO PIZZA DELIVERY PLACE!!!");
             //input city, must be winnipeg
             System.out.println("Enter city (must be 'Winnipeg'): ");
-            String City = scanner.nextLine().toLowerCase();
+            String City = scanner.nextLine().toLowerCase().trim();
             //validate
-            if (!City.equals("winnipeg")) { // Case-insensitive comparison
+            if (!City.equals("winnipeg")) { 
                 System.out.println("That is out of our delivery radius. Try again.");
             } else {
-                return "Winnipeg"; // Preserve correct capitalization in output
+                return "Winnipeg"; 
             }
          }    
     }
@@ -86,7 +179,7 @@ static Scanner scanner = new Scanner(System.in);
                     if (streetNum > 0 && streetNum < 1000) {
                         return matchedStreet + " " + streetNum; 
                     } else {
-                        System.out.println("Street number must be between 1 and 999.");
+                        System.out.println("Street number must be between 1 and 1000.");
                     }
                 } else {
                     System.out.println("Please enter a valid number.");
